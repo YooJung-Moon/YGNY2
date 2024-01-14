@@ -36,8 +36,8 @@ public class OrderPanel extends JPanel {
 
     // 2. 장바구니 수정 버튼이 붙여진 패널
     private JPanel editBtnsPanel; // editBtns가 붙을 패널
-    private String[] btn3Title = {"reduce", "remove", "reset"}; // 버튼명
-    private JButton[] editBtns; // 수량 감소, 선택한 메뉴 삭제, 테이블 초기화 버튼
+    private String[] btn3Title = {"<html>수량빼기</html>","<html>선택 메뉴 삭제</html>","<html>초기화</html>"}; // 버튼명한글
+    private JButton[] editBtns; // 수량 빼기, 선택한 메뉴 삭제, 테이블 초기화 버튼
 
     // 3. 결제하기 버튼, 결제 화면 패널
     private JPanel payPanel; // timerLabel, choicePanel, payBtn이 붙을 패널
@@ -202,7 +202,7 @@ public class OrderPanel extends JPanel {
     } // class TableMouseListener extends MouseAdapter 끝 ================
 
 
-    // 장바구니의 reduce, remove, reset 버튼 리스너
+    // 장바구니의 수량 빼기, 선택한 메뉴 삭제, 테이블 초기화 버튼 리스너
     class EditBtnsActionListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             JButton btn = (JButton) e.getSource();
@@ -212,8 +212,8 @@ public class OrderPanel extends JPanel {
             
 
 
-            // reset 버튼: 장바구니 초기화
-            if(b.equals("reset")){
+            // 테이블 초기화 버튼: 장바구니 초기화
+            if(b.equals("<html>초기화</html>")){
                 // 행이 모두 없어질 때까지 삭제
                 while (model.getRowCount() != 0) {
                     model.removeRow(--tableSize);
@@ -221,7 +221,7 @@ public class OrderPanel extends JPanel {
                 }
 
             }
-            // reduce, remove 버튼
+            // 수량 빼기, 선택한 메뉴 삭제 버튼
             else {
                 String name;
                 int quantity = 0;
@@ -233,9 +233,9 @@ public class OrderPanel extends JPanel {
                     // 해당 메뉴 가격
                     name = (String) table.getValueAt(row, 0);
 
-                    // reduce 버튼 : 해당 메뉴의 수량 하나씩 줄이기
-                    if (b.equals("reduce")) {
-                        // 해당 메뉴 수량 감소하기
+                    // 수량 빼기 버튼 : 해당 메뉴의 수량 하나씩 줄이기
+                    if (b.equals("<html>수량빼기</html>")) {
+                        // 해당 메뉴 수량 빼기
                         quantity = Integer.parseInt((String) table.getValueAt(row, 1));
                         quantity -= 1;
                         
@@ -259,8 +259,8 @@ public class OrderPanel extends JPanel {
                         }
 
                     }
-                    // remove 버튼 : 해당 메뉴 삭제하기
-                    else if (b.equals("remove")) {
+                    // 선택 메뉴 삭제 버튼 : 해당 메뉴 삭제하기
+                    else if (b.equals("<html>선택 메뉴 삭제</html>")) {
                         model.removeRow(row);
                         tableSize -= 1;
                         row = -1;
