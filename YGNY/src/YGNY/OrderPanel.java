@@ -68,11 +68,15 @@ public class OrderPanel extends JPanel {
         basketPanel.setLayout(new BorderLayout());
         
         //"보증금 5,000원 필수" 텍스트
-        JLabel depositLabel = new JLabel("보증금 5,000원 필수");
-        depositLabel.setFont(new Font("맑은 고딕", Font.PLAIN, 20));
-        depositLabel.setForeground(Color.BLUE);
+        //줄바꿈을 위한 html
+        JLabel depositLabel = new JLabel("<html><body><center>보증금 5,000원<br>10개 이상 대여시 10,000원</center></body></html>");
+        depositLabel.setFont(new Font("맑은고딕", Font.BOLD, 20));
+        depositLabel.setForeground(new Color(0, 0, 153));
         depositLabel.setHorizontalAlignment(JLabel.CENTER); // 가운데 정렬
         basketPanel.add("South", depositLabel);
+        
+
+
 
 
         // 테이블 생성, 마우스 리스너 붙이기
@@ -205,6 +209,7 @@ public class OrderPanel extends JPanel {
             String b = btn.getText();
 
             int tableSize = model.getRowCount();
+            
 
 
             // reset 버튼: 장바구니 초기화
@@ -221,6 +226,7 @@ public class OrderPanel extends JPanel {
                 String name;
                 int quantity = 0;
                 int price = 0;
+                            
 
                 // 테이블에 특정 메뉴가 클릭된 상태일 때만 동작
                 if (row > -1) {
@@ -232,6 +238,7 @@ public class OrderPanel extends JPanel {
                         // 해당 메뉴 수량 감소하기
                         quantity = Integer.parseInt((String) table.getValueAt(row, 1));
                         quantity -= 1;
+                        
 
                         // 수량이 0이 되면 행 삭제
                         if (quantity == 0) {
@@ -243,6 +250,7 @@ public class OrderPanel extends JPanel {
                             
                             // 테이블 업데이트
                             table.setValueAt(Integer.toString(quantity), row, 1); // 수량
+                            
 
                         }
                         if (tableSize == 0) {
@@ -258,10 +266,23 @@ public class OrderPanel extends JPanel {
                         row = -1;
                        
                     }
-                    if (tableSize == 0) {
+                    int allquantity = 0;
+                    for (int i = 0; i < tableSize; i++) {
+                        allquantity += Integer.parseInt(OrderPanel.model.getValueAt(i, 1).toString());
+                    }
+
+                    // 보증금 갱신
+                    if (allquantity == 0) {
                         // 장바구니가 비어있을 경우 합계를 0으로 설정
                         OrderPanel.sumPrice.setText(" 0원");
-                    } 
+                    } else if (allquantity >= 10) {
+                        OrderPanel.sumPrice.setText(" 10,000원");
+                    } else {
+                        // 그 외의 경우에는 일반적인 합계 설정 (여기에서는 5,000원으로 설정)
+                        OrderPanel.sumPrice.setText(" 5,000원");
+                    }
+                    
+                     
 
                 
 

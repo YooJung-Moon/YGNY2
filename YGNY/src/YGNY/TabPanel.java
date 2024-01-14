@@ -17,7 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
 
-//10개 이상이면 보증금 바뀌는 코드는 맨아래 있습니다. 우선 잘 안돼서 그냥 올려봅니다....
+//10개 이상이면 보증금 바뀌는 코드 완료
 
 // 메뉴를 고르는 키오스크 탭 화면
 public class TabPanel extends JPanel {
@@ -172,6 +172,7 @@ public class TabPanel extends JPanel {
          
             // 이미 장바구니에 담겨져 있는 검사
             boolean inBasket = false;
+            int selectedRow = -1; // 존재하면 몇 번째 행인지 저장할 변수
 
             // 해당 메뉴 가격
 
@@ -183,7 +184,8 @@ public class TabPanel extends JPanel {
                     String[] curMenu = new String[2];
                     curMenu[0] = (String) OrderPanel.model.getValueAt(i,1); // 수량
                     curMenu[1] = (String) OrderPanel.model.getValueAt(i,2); // 가격
-
+                    
+                    selectedRow = i; // 해당 행 번호 저장
                     quantity = Integer.parseInt(curMenu[0]) + 1; // 수량 + 1
                    
                
@@ -209,11 +211,17 @@ public class TabPanel extends JPanel {
                 newMenu[2] = "0";
 
 
-                // table 업데이트
+                // table 업데이트. 새로운 상품이 추가될 때마다  quantity는 초기화됨 
                 OrderPanel.model.addRow(newMenu);
-                allquantity = tableSize + quantity;
+                quantity = 1;
 
             } 
+            
+            // 
+            allquantity = 0;
+            for (int i = 0; i < tableSize; i++) {
+                allquantity += Integer.parseInt(OrderPanel.model.getValueAt(i, 1).toString());
+            }
 
            
             
